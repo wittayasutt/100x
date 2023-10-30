@@ -24,23 +24,21 @@ export const useSubPythPrices = (): [
           (t) => t.priceId.toLowerCase() === "0x".concat(feed.id)
         )!.name;
 
-        const previous = previousPriceFeed[tokenName];
-        const current = parsePriceToIPythPrice(feed);
+        const _price = parsePriceToIPythPrice(feed);
 
-        if (!previous || previous.isZero()) {
-          // to save price first time loaded
-          setPreviousPriceFeed((cur) => {
-            return {
-              ...cur,
-              [tokenName]: current,
-            };
-          });
-        }
+        setPreviousPriceFeed((cur) => {
+          if (cur[tokenName] && cur[tokenName].gt(BigNumber.from(0)))
+            return cur;
+          return {
+            ...cur,
+            [tokenName]: _price,
+          };
+        });
 
         setPriceFeed((cur) => {
           return {
             ...cur,
-            [tokenName]: current,
+            [tokenName]: _price,
           };
         });
       }

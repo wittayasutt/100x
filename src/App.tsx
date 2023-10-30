@@ -4,6 +4,7 @@ import { useSubPythPrices } from "./hooks/useSubPythPrices";
 import { TokenTable } from "components/TokenTable";
 import { LikedList } from "components/LikedList";
 import { LikedTokenReport } from "components/LikedTokenReport";
+import { tokens } from "./constants";
 
 function App() {
   const [likedList, setLikedList] = useState<string[]>([]);
@@ -12,7 +13,9 @@ function App() {
   return (
     <div className="App">
       <div style={{ margin: "4rem", textAlign: "center" }}>
-        <header className="App-header">Token prices</header>
+        <header className="App-header">
+          Token prices from {tokens.length} tokens
+        </header>
         <LikedTokenReport likedTokens={likedList} tokenPrices={tokenPrices} />
       </div>
       <div className="App-content">
