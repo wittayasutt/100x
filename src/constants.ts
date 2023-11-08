@@ -320,11 +320,6 @@ export const tokens: IToken[] = [
       "0xff61491a931112ddf1bd8147cd1b641375f79f5825126d665480874634fd0ace",
   },
   {
-    name: "EUROC",
-    priceId:
-      "0xd052e6f54fe29355d6a3c06592fdefe49fae7840df6d8655bf6d6bfb789b56e4",
-  },
-  {
     name: "EVMOS",
     priceId:
       "0xc19405e4c8bdcbf2a66c37ae05a27d385c8309e9d648ed20dc6ee717e7d30e17",
