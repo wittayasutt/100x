@@ -1,5 +1,5 @@
 export const LikedList = ({ tokens }: { tokens: string[] }) => {
-	console.log('render liked list');
+	// console.log('render liked list');
 	return (
 		<div className='p-2'>
 			<div className='mb-2'>

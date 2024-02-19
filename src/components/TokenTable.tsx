@@ -1,20 +1,15 @@
 import { BigNumber } from '@ethersproject/bignumber';
 import { tokens } from '../constants';
 import { formatUnits, parseUnits } from 'ethers/lib/utils';
-import { useState } from 'react';
 
-export const TokenTable = ({
-	tokenPrices,
-	previousPrices,
-	onChange,
-}: {
+type TokenTableProps = {
 	tokenPrices: Record<string, BigNumber>;
 	previousPrices: Record<string, BigNumber>;
-	onChange: (likedList: string[]) => void;
-}) => {
-	console.log('render table');
-	const [likedList, setLikedList] = useState<string[]>([]);
+	likedList: string[];
+	onClickLikeToken: (tokenName: string) => void;
+};
 
+export const TokenTable = ({ tokenPrices, previousPrices, likedList, onClickLikeToken }: TokenTableProps) => {
 	return (
 		<div className='p-2 w-[70%]'>
 			<table>
@@ -27,29 +22,18 @@ export const TokenTable = ({
 					</tr>
 				</thead>
 				<tbody>
-					{tokens.map((t) => (
-						<tr>
+					{tokens.map((token) => (
+						<tr key={token.name}>
 							<td>
-								<button
-									onClick={() => {
-										if (likedList.find((l) => l === t.name)) {
-											setLikedList(likedList.filter((l) => l !== t.name));
-											onChange(likedList);
-										} else {
-											likedList.push(t.name);
-											setLikedList(likedList);
-											onChange(likedList);
-										}
-									}}
-								>
-									{likedList.includes(t.name) ? 'Liked' : 'Like'}
+								<button onClick={() => onClickLikeToken(token.name)}>
+									{likedList.includes(token.name) ? 'Liked' : 'Like'}
 								</button>
 							</td>
-							<td>{t.name}</td>
+							<td>{token.name}</td>
 							<td className='text-right'>
 								{(() => {
 									const price =
-										Object.entries(tokenPrices).find(([key]) => key === t.name)?.[1] ??
+										Object.entries(tokenPrices).find(([key]) => key === token.name)?.[1] ??
 										BigNumber.from(0);
 
 									return formatUnits(price, 30);
@@ -60,11 +44,11 @@ export const TokenTable = ({
 							<td className='text-right'>
 								{(() => {
 									const currentPrice =
-										Object.entries(tokenPrices).find(([key]) => key === t.name)?.[1] ??
+										Object.entries(tokenPrices).find(([key]) => key === token.name)?.[1] ??
 										BigNumber.from(0);
 
 									const last24Price =
-										Object.entries(previousPrices).find(([key]) => key === t.name)?.[1] ??
+										Object.entries(previousPrices).find(([key]) => key === token.name)?.[1] ??
 										BigNumber.from(0);
 
 									const percentChanged = last24Price.isZero()
