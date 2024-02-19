@@ -16,7 +16,7 @@ export const TokenTable = ({
 	const [likedList, setLikedList] = useState<string[]>([]);
 
 	return (
-		<div style={{ padding: 8, width: '70%' }}>
+		<div className='p-2 w-[70%]'>
 			<table>
 				<thead>
 					<tr>
@@ -46,7 +46,7 @@ export const TokenTable = ({
 								</button>
 							</td>
 							<td>{t.name}</td>
-							<td style={{ textAlign: 'right' }}>
+							<td className='text-right'>
 								{(() => {
 									const price =
 										Object.entries(tokenPrices).find(([key]) => key === t.name)?.[1] ??
@@ -57,7 +57,7 @@ export const TokenTable = ({
 							</td>
 							{/* todo: show red number when change is negative */}
 							{/*       show green number when change is positive */}
-							<td style={{ textAlign: 'right' }}>
+							<td className='text-right'>
 								{(() => {
 									const currentPrice =
 										Object.entries(tokenPrices).find(([key]) => key === t.name)?.[1] ??

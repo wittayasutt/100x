@@ -26,10 +26,10 @@ export const LikedTokenReport = ({
 	}, 'X');
 
 	return (
-		<div style={{ display: 'flex' }}>
-			<div style={{ fontWeight: 'bold' }}>HIGHEST Price liked TOKEN: {winner}</div>
-			<div style={{ margin: '0 4rem' }}>||||||||</div>
-			<div style={{ fontWeight: 'bold' }}>LOWEST Price liked TOKEN: {loser}</div>
+		<div className='flex'>
+			<div className='font-bold'>HIGHEST Price liked TOKEN: {winner}</div>
+			<div className='mx-0.5'>||||||||</div>
+			<div className='font-bold'>LOWEST Price liked TOKEN: {loser}</div>
 		</div>
 	);
 };

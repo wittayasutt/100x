@@ -12,7 +12,7 @@ function App() {
 
 	return (
 		<div className='App'>
-			<div style={{ margin: '4rem', textAlign: 'center' }}>
+			<div className='mb-16 text-center'>
 				<header className='App-header'>Token prices from {tokens.length} tokens</header>
 				<LikedTokenReport likedTokens={likedList} tokenPrices={tokenPrices} />
 			</div>
