@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import './App.css';
 import { useSubPythPrices } from './hooks/useSubPythPrices';
 import { TokenTable } from 'components/TokenTable';
 import { LikedList } from 'components/LikedList';
@@ -11,12 +10,12 @@ function App() {
 	const [tokenPrices, previousTokenPrices] = useSubPythPrices();
 
 	return (
-		<div className='App'>
+		<div className='flex flex-col justify-center items-center mx-auto'>
 			<div className='mb-16 text-center'>
-				<header className='App-header'>Token prices from {tokens.length} tokens</header>
+				<header className='text-[4rem]'>Token prices from {tokens.length} tokens</header>
 				<LikedTokenReport likedTokens={likedList} tokenPrices={tokenPrices} />
 			</div>
-			<div className='App-content'>
+			<div className='w-full flex items-start gap-2'>
 				<TokenTable tokenPrices={tokenPrices} previousPrices={previousTokenPrices} onChange={setLikedList} />
 				<LikedList tokens={likedList} />
 			</div>
