@@ -1,4 +1,6 @@
-export const LikedList = ({ tokens }: { tokens: string[] }) => {
+type LikedListProp = { tokens: string[] };
+
+export const LikedList = ({ tokens }: LikedListProp) => {
 	return (
 		<div className='p-2'>
 			<div className='mb-2'>

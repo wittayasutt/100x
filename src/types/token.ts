@@ -1,6 +1,8 @@
 import { BigNumber } from 'ethers';
 
+export type TokenRecord = Record<string, BigNumber>;
+
 export type TokenReport = {
 	tokens: string[];
-	tokenPrices: Record<string, BigNumber>;
+	tokenPrices: TokenRecord;
 };
