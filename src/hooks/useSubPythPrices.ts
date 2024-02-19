@@ -14,7 +14,7 @@ export const useSubPythPrices = (): [
 
   useEffect(() => {
     const connection = new EvmPriceServiceConnection(
-      "https://xc-mainnet.pyth.network"
+      "https://hermes.pyth.network"
     );
 
     connection.subscribePriceFeedUpdates(

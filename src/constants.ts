@@ -415,16 +415,6 @@ export const tokens: IToken[] = [
       "0x48f3736d94693aa73c11214c4176ba7f997a8329f4dbc3854c4b2686861132ce",
   },
   {
-    name: "HADES",
-    priceId:
-      "0x07a8f31e8910c3b52f338d2aca6f4dc2404753ebafcdf53290ef4993911a71f8",
-  },
-  {
-    name: "HAY",
-    priceId:
-      "0x4176cd17d4a1fb517b6535e70084ce85e1bcbe707c66b960c8bd5256accc1b2d",
-  },
-  {
     name: "HFT",
     priceId:
       "0xfa2d39b681f3cef5fa87432a8dbd05113917fffb1b6829a37395c88396522a4e",
@@ -463,11 +453,6 @@ export const tokens: IToken[] = [
     name: "ITA",
     priceId:
       "0xa5eb88d3ea93f6240d7e54b4466bc1857f7bfc1658d49a07f68096ebc0fdde3b",
-  },
-  {
-    name: "JET",
-    priceId:
-      "0x81a21b01c15b8d01f6cdfed65e00987cc4c901858c821b2089344987de3102e9",
   },
   {
     name: "JITOSOL",
