@@ -1,7 +1,8 @@
 import { BigNumber } from '@ethersproject/bignumber';
-import { EvmPriceServiceConnection, PriceFeed } from '@pythnetwork/pyth-evm-js';
-import { tokens } from '../constants';
+import { EvmPriceServiceConnection } from '@pythnetwork/pyth-evm-js';
 import { useEffect, useState } from 'react';
+import { tokens } from '../constants';
+import { getMacthedTokenName, parsePriceToIPythPrice } from '../helpers/token';
 
 export const useSubPythPrices = (): [Record<string, BigNumber>, Record<string, BigNumber>] => {
 	const [previousPriceFeed, setPreviousPriceFeed] = useState<Record<string, BigNumber>>({});
@@ -13,22 +14,26 @@ export const useSubPythPrices = (): [Record<string, BigNumber>, Record<string, B
 		connection.subscribePriceFeedUpdates(
 			tokens.map((t) => t.priceId),
 			(feed) => {
-				const tokenName = tokens.find((t) => t.priceId.toLowerCase() === '0x'.concat(feed.id))!.name;
+				const tokenName = getMacthedTokenName(tokens, feed);
+				const price = parsePriceToIPythPrice(feed);
 
-				const _price = parsePriceToIPythPrice(feed);
-
+				// TODO: check this feature again
 				setPreviousPriceFeed((cur) => {
-					if (cur[tokenName] && cur[tokenName].gt(BigNumber.from(0))) return cur;
+					const curTokenNam = cur[tokenName];
+					if (curTokenNam?.gt(BigNumber.from(0))) {
+						return cur;
+					}
+
 					return {
 						...cur,
-						[tokenName]: _price,
+						[tokenName]: price,
 					};
 				});
 
 				setPriceFeed((cur) => {
 					return {
 						...cur,
-						[tokenName]: _price,
+						[tokenName]: price,
 					};
 				});
 			},
@@ -37,17 +42,7 @@ export const useSubPythPrices = (): [Record<string, BigNumber>, Record<string, B
 		return () => {
 			connection.closeWebSocket();
 		};
-		// eslint-disable-next-line
 	}, []);
 
 	return [priceFeed, previousPriceFeed];
-};
-
-const parsePriceToIPythPrice = (priceFeed: PriceFeed): BigNumber => {
-	const _price = priceFeed.getPriceUnchecked();
-
-	const price = BigNumber.from(_price.price);
-	const expoToE30 = BigNumber.from(10).pow(30 + _price.expo);
-
-	return price.mul(expoToE30);
 };
