@@ -7,10 +7,13 @@ export const LikedTokenReport = ({ tokens, tokenPrices }: TokenReport) => {
 	const LowestToken = useMemo(() => getLowestTokenPrice({ tokens, tokenPrices }), [tokens, tokenPrices]);
 
 	return (
-		<div className='flex'>
-			<div className='font-bold'>HIGHEST Price liked TOKEN: {highestToken}</div>
-			<div className='mx-0.5'>||||||||</div>
-			<div className='font-bold'>LOWEST Price liked TOKEN: {LowestToken}</div>
+		<div>
+			<div>
+				HIGHEST Price liked TOKEN: <span className='font-bold'>{highestToken}</span>
+			</div>
+			<div>
+				LOWEST Price liked TOKEN: <span className='font-bold'>{LowestToken}</span>
+			</div>
 		</div>
 	);
 };

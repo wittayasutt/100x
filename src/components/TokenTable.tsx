@@ -3,6 +3,8 @@ import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { useCallback, useEffect, useState } from 'react';
 import { tokens } from '../constants';
 import { TokenRecord } from '../types/token';
+import like from '../assets/images/thumbs-up-outline.svg';
+import liked from '../assets/images/thumbs-up.svg';
 
 type TokenTableProps = {
 	tokenPrices: TokenRecord;
@@ -13,6 +15,15 @@ type TokenTableProps = {
 
 export const TokenTable = ({ tokenPrices, previousPrices, likedList, onClickLikeToken }: TokenTableProps) => {
 	const [data, setData] = useState<any>([]);
+
+	const getSign = (number: BigNumber) => {
+		if (number.gt(BigNumber.from(0))) {
+			return 'positive';
+		} else if (number.lt(BigNumber.from(0))) {
+			return 'negative';
+		}
+		return 'neutral';
+	};
 
 	const getPrice = useCallback(
 		(tokenName: string) => {
@@ -30,18 +41,20 @@ export const TokenTable = ({ tokenPrices, previousPrices, likedList, onClickLike
 				? BigNumber.from(0)
 				: price.sub(previousPrice).mul(parseUnits('1', 30)).div(previousPrice);
 
-			return formatUnits(percentChanged, 28) + '%';
+			return { percent: formatUnits(percentChanged, 28) + '%', sign: getSign(percentChanged) };
 		},
 		[tokenPrices, previousPrices],
 	);
 
 	useEffect(() => {
 		const _data = tokens.map((token) => {
+			const percent = getPercentChanged(token.name);
 			return {
 				name: token.name,
 				liked: likedList.includes(token.name),
 				price: getPrice(token.name),
-				percentChanged: getPercentChanged(token.name),
+				percentChanged: percent.percent,
+				sign: percent.sign,
 			};
 		});
 
@@ -49,30 +62,38 @@ export const TokenTable = ({ tokenPrices, previousPrices, likedList, onClickLike
 	}, [likedList, getPrice, getPercentChanged]);
 
 	return (
-		<div className='p-2 w-[70%]'>
-			<table>
-				<thead>
+		<div className='w-full px-16 overflow-scroll'>
+			<table className='border-separate border-spacing-1 border table-auto'>
+				<thead className='bg-gray'>
 					<tr>
-						<th>ACTION</th>
-						<th>TOKEN</th>
-						<th>PRICE</th>
-						<th>%CHANGE</th>
+						<th className='w-1/12'>ACTION</th>
+						<th className='w-1/12'>TOKEN</th>
+						<th className='w-3/12'>PRICE</th>
+						<th className='w-7/12'>%CHANGE</th>
 					</tr>
 				</thead>
 				<tbody>
 					{data &&
 						data.map((token: any) => (
 							<tr key={token.name}>
-								<td>
+								<td className='flex justify-center'>
 									<button onClick={() => onClickLikeToken(token.name)}>
-										{token.liked ? 'Liked' : 'Like'}
+										{token.liked ? (
+											<img className='w-8' src={liked} alt='liked' />
+										) : (
+											<img className='w-8' src={like} alt='like' />
+										)}
 									</button>
 								</td>
-								<td>{token.name}</td>
+								<td className='text-center'>{token.name}</td>
 								<td className='text-right'>{token.price}</td>
-								{/* todo: show red number when change is negative */}
-								{/*       show green number when change is positive */}
-								<td className='text-right'>{token.percentChanged}</td>
+								<td
+									className={`text-right${token.sign === 'positive' ? ' text-green' : ''}${
+										token.sign === 'negative' ? ' text-red' : ''
+									}`}
+								>
+									{token.percentChanged}
+								</td>
 							</tr>
 						))}
 				</tbody>

@@ -21,20 +21,19 @@ function App() {
 	};
 
 	return (
-		<div className='flex flex-col justify-center items-center mx-auto'>
+		<div className='flex flex-col justify-center items-center mx-auto bg-dark text-white'>
 			<div className='mb-16 text-center'>
-				<header className='text-[4rem]'>Token prices from {tokens.length} tokens</header>
+				<header className='text-[2rem] text-blue m-4'>Token prices from {tokens.length} tokens</header>
 				<LikedTokenReport tokens={likedList} tokenPrices={priceFeed} />
-			</div>
-			<div className='w-full flex items-start gap-2'>
-				<TokenTable
-					tokenPrices={priceFeed}
-					previousPrices={previousPriceFeed}
-					likedList={likedList}
-					onClickLikeToken={handleToggleLikedList}
-				/>
+				<hr className='my-4 text-blue' />
 				<LikedList tokens={likedList} />
 			</div>
+			<TokenTable
+				tokenPrices={priceFeed}
+				previousPrices={previousPriceFeed}
+				likedList={likedList}
+				onClickLikeToken={handleToggleLikedList}
+			/>
 		</div>
 	);
 }
