@@ -1,35 +1,16 @@
-import { BigNumber } from 'ethers';
+import { useMemo } from 'react';
+import { getHighestTokenPrice, getLowestTokenPrice } from '../helpers/token';
+import { TokenReport } from '../types/token';
 
-export const LikedTokenReport = ({
-	likedTokens,
-	tokenPrices,
-}: {
-	likedTokens: string[];
-	tokenPrices: Record<string, BigNumber>;
-}) => {
-	console.log('render report');
-
-	const winner = likedTokens.reduce<string>((winner, token) => {
-		if (winner === 'X') return token;
-		const _price0 = tokenPrices[winner];
-		const _price1 = tokenPrices[token];
-		if (!_price0 || !_price1) return winner;
-		return _price0.gt(_price1) ? winner : token;
-	}, 'X');
-
-	const loser = likedTokens.reduce<string>((loser, token) => {
-		if (loser === 'X') return token;
-		const _price0 = tokenPrices[loser];
-		const _price1 = tokenPrices[token];
-		if (!_price0 || !_price1) return loser;
-		return _price0.lt(_price1) ? loser : token;
-	}, 'X');
+export const LikedTokenReport = ({ tokens, tokenPrices }: TokenReport) => {
+	const highestToken = useMemo(() => getHighestTokenPrice({ tokens, tokenPrices }), [tokens, tokenPrices]);
+	const LowestToken = useMemo(() => getLowestTokenPrice({ tokens, tokenPrices }), [tokens, tokenPrices]);
 
 	return (
 		<div className='flex'>
-			<div className='font-bold'>HIGHEST Price liked TOKEN: {winner}</div>
+			<div className='font-bold'>HIGHEST Price liked TOKEN: {highestToken}</div>
 			<div className='mx-0.5'>||||||||</div>
-			<div className='font-bold'>LOWEST Price liked TOKEN: {loser}</div>
+			<div className='font-bold'>LOWEST Price liked TOKEN: {LowestToken}</div>
 		</div>
 	);
 };

@@ -2,9 +2,14 @@ import { BigNumber } from '@ethersproject/bignumber';
 import { EvmPriceServiceConnection } from '@pythnetwork/pyth-evm-js';
 import { useEffect, useState } from 'react';
 import { tokens } from '../constants';
-import { getMacthedTokenName, parsePriceToIPythPrice } from '../helpers/token';
+import { getMatchedTokenName, parsePriceToIPythPrice } from '../helpers/token';
 
-export const useSubPythPrices = (): [Record<string, BigNumber>, Record<string, BigNumber>] => {
+type useSubPythPricesReturnType = {
+	priceFeed: Record<string, BigNumber>;
+	previousPriceFeed: Record<string, BigNumber>;
+};
+
+export const useSubPythPrices = (): useSubPythPricesReturnType => {
 	const [previousPriceFeed, setPreviousPriceFeed] = useState<Record<string, BigNumber>>({});
 	const [priceFeed, setPriceFeed] = useState<Record<string, BigNumber>>({});
 
@@ -14,7 +19,7 @@ export const useSubPythPrices = (): [Record<string, BigNumber>, Record<string, B
 		connection.subscribePriceFeedUpdates(
 			tokens.map((t) => t.priceId),
 			(feed) => {
-				const tokenName = getMacthedTokenName(tokens, feed);
+				const tokenName = getMatchedTokenName(tokens, feed);
 				const price = parsePriceToIPythPrice(feed);
 
 				// TODO: check this feature again
@@ -44,5 +49,5 @@ export const useSubPythPrices = (): [Record<string, BigNumber>, Record<string, B
 		};
 	}, []);
 
-	return [priceFeed, previousPriceFeed];
+	return { priceFeed, previousPriceFeed };
 };
