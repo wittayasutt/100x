@@ -3,6 +3,8 @@ import { PriceFeed } from '@pythnetwork/pyth-evm-js';
 import { IToken } from '../constants';
 import { TokenReport } from '../types/token';
 
+// TODO: Please add unit test to all functions in this file
+
 export const getMatchedTokenName = (tokens: IToken[], feed: PriceFeed): string => {
 	return tokens.find((t) => t.priceId.toLowerCase() === '0x'.concat(feed.id))!.name;
 };
